@@ -10,7 +10,7 @@ diff $preSrcVer/LiDE.c $curSrcVer/LiDE.c >$curSrcVer/Patch/LiDE.c.patch
 diff $preSrcVer/LiDE.h $curSrcVer/LiDE.h >$curSrcVer/Patch/LiDE.h.patch
 diff $preSrcVer/nwio.c $curSrcVer/nwio.c >$curSrcVer/Patch/nwio.c.patch
 diff $preSrcVer/Makefile $curSrcVer/Makefile >$curSrcVer/Patch/Makefile.patch
-diff $preSrcVer/README $curSrcVer/README >$curSrcVer/Patch/README.patch
+diff $preSrcVer/README $curSrcVer/README.md >$curSrcVer/Patch/README.patch
 
 rm -r Current
 mkdir -p Current/Patch
@@ -19,7 +19,7 @@ diff Original\ Sources/hermes/hermes.c $curSrcVer/LiDE.c >Current/Patch/LiDE.c.p
 diff Original\ Sources/hermes/hermes.h $curSrcVer/LiDE.h >Current/Patch/LiDE.h.patch
 diff Original\ Sources/hermes/nwio.c $curSrcVer/nwio.c >Current/Patch/nwio.c.patch
 diff Original\ Sources/hermes/Makefile $curSrcVer/Makefile >Current/Patch/Makefile.patch
-diff Original\ Sources/hermes/README $curSrcVer/README >Current/Patch/README.patch
+diff Original\ Sources/hermes/README $curSrcVer/README.md >Current/Patch/README.patch
 diff Original\ Sources/hermes/mktarball.sh $curSrcVer/mktarball.sh >Current/Patch/mktarball.sh.patch
 
 cd ..
@@ -27,7 +27,7 @@ cd ..
 #*****Start Configuration \ Variables*****
 name="LiDE"    #Name of project.
 version="`grep PROG_VERSION $name.h | cut -f2 -d \"\\"\"`"  #Replace everything between Parentheses with "`Your command to extract version of project`"
-files="nwio.c $name.c $name.h Makefile ChangeLog README Source mktarball.sh" #List files\directories you want to include in your source code distribution.
+files="nwio.c $name.c $name.h Makefile ChangeLog.md README.md Source mktarball.sh" #List files\directories you want to include in your source code distribution.
 #*****End Configuration \ Variables*****
 
 echo "[$name] making tarball..."
