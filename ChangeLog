@@ -66,6 +66,9 @@ Akimichi Ogawa
 v0.0.3.1
 -Added option to choose interface, now can display remote command to acquire file transfer on interface other than eth0 
 
+v0.0.3.2
+-Changed display of executed program, easier to read.
+
 
 Referenced Sources
 
