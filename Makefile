@@ -1,5 +1,5 @@
 main : LiDE.o nwio.o 
-	gcc -o lide LiDE.o nwio.o -Wall
+	gcc -o lide LiDE.o nwio.o -Wall -lcrypto -lssl
 
 LiDE.o : LiDE.c 
 	gcc -c LiDE.c
