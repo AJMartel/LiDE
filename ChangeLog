@@ -1,14 +1,15 @@
 LiDE "Linux Disk Extractor"
 
-As of version 0.0.2.0 it has the same functionality as running a string of commands:
+As of version 0.0.3.0 it has the same functionality as running a string of commands:
 -dd to capture a file (more like cat though)
 -pv "pipe viewer" to view the progress of the file transfer
 -netcat to send the file over the network
--md5sum to verify file integrity
-All packaged into a small executable less than 15Kb in size.
+-md5sum to report the unique file hash, in order to confirm a 100% good file transfer
+-ifconfig to report the local IP address (currently hardcoded for eth0)
+All packaged into a small executable less than 19Kb in size.
 
 The following command could accomplish the same results:
-cat File_to_Transfer | pv | nc -l -p 31337 && md5sum File_to_Transfer
+ifconfig | grep -A1 eth0 | grep inet | cut -f2 -d ":" | cut -f1 -d " " && md5sum File_to_Transfer && cat File_to_Transfer | pv | nc -l -p 31337
 
 
 Summary ChangeLog
@@ -55,6 +56,15 @@ v0.0.2.1
 -Fixed MD5 function error displayed if no file available.
 
 
+v0.0.3.0
+-Added get local IP Address of eth0 (hardcoded)
+-Added display remote command to acquire file transfer
+-Clean up comments 
+Get local IP Address Function:
+http://www.geekpage.jp/en/programming/linux-network/get-ipaddr.php
+Akimichi Ogawa
+
+
 Referenced Sources
 
 https://github.com/joshualockhart/hermes
@@ -63,3 +73,7 @@ Thanks to Joshua Lockhart for getting my project off the ground.
 MD5 Function
 http://stackoverflow.com/questions/1220046/how-to-get-the-md5-hash-of-a-file-in-c/1220177#1220177
 D'Nabre, 2 Aug 2009
+
+Get local IP Address Function:
+http://www.geekpage.jp/en/programming/linux-network/get-ipaddr.php
+Akimichi Ogawa
