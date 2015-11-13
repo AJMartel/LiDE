@@ -5,7 +5,7 @@ As of version 0.0.3.0 it has the same functionality as running a string of comma
 -pv "pipe viewer" to view the progress of the file transfer
 -netcat to send the file over the network
 -md5sum to report the unique file hash, in order to confirm a 100% good file transfer
--ifconfig to report the local IP address (currently hardcoded for eth0)
+-ifconfig to report the local IP address
 All packaged into a small executable less than 19Kb in size.
 
 The following command could accomplish the same results:
@@ -55,7 +55,6 @@ D'Nabre, 2 Aug 2009
 v0.0.2.1
 -Fixed MD5 function error displayed if no file available.
 
-
 v0.0.3.0
 -Added get local IP Address of eth0 (hardcoded)
 -Added display remote command to acquire file transfer
@@ -63,6 +62,9 @@ v0.0.3.0
 Get local IP Address Function:
 http://www.geekpage.jp/en/programming/linux-network/get-ipaddr.php
 Akimichi Ogawa
+
+v0.0.3.1
+-Added option to choose interface, now can display remote command to acquire file transfer on interface other than eth0 
 
 
 Referenced Sources
