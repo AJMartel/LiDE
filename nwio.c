@@ -122,11 +122,11 @@ int listen_for_inbound_requests(int port, FILE *filename_fd)
 	}
 
 	//====Start-Local_IP_Address====
-	printf("\x1B[32mUsing interface:\x1B[31m %s\033[0m\n", ip_interface);
-	printf("\x1B[33mTo capture the sent file, enter the following into the remote system: \n\x1B[31mnetcat %s %d > received_file && md5sum received_file\033[0m\n", inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr), ntohs(serv.sin_port)); /* display result */
+	printf("\x1B[32mUsing the IP from interface:\x1B[31m %s\033[0m\n", ip_interface);
+	printf("\x1B[33mTo capture the sent file, enter the following on the remote system: \n\x1B[31mnetcat %s %d > received_file && md5sum received_file\033[0m\n", inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr), ntohs(serv.sin_port)); /* display result */
 	//====End-Local_IP_Address====
 
-	printf("\x1B[32mSending on port %d...\033[0m\n", ntohs(serv.sin_port));
+	printf("\x1B[32m\nSending on port %d...\033[0m\n", ntohs(serv.sin_port));
 
 	for (;;) {
 		len = sizeof(cli);
