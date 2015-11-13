@@ -6,6 +6,7 @@
 #include <sys/socket.h>   // C Internet Protocol family
 #include <sys/types.h>    // C data types
 #include "LiDE.h"         // 
+#include "version.h"      
 //====Start-MD5-Support====
 #include <sys/stat.h>     // C data returned by the stat() function    --|
 #include <sys/mman.h>     // C memory management declarations            |== Support MD5 Function
@@ -31,7 +32,7 @@ unsigned long get_size_by_fd(int fd) {
 //====End-MD5-Support====
 
 void print_help(void){
-	printf("%s \n\n", LiDE_ver);
+	printf("\x1B[33m%s (\033[1mLi\033[22mnux \033[1mD\033[22misk \033[1mE\033[22mxtractor) - v%s\033[0m \n\n", PROG_NAME, PROG_VERSION);
 	printf("LiDE is a very small fileserver.\n\
 Usage to host a file, do the following:\n\n\
 $ \x1B[32m./lide <filename>\033[0m              Will use default port 31337\n\
@@ -57,7 +58,6 @@ int main(int argc, char *argv[])
 	//====Start-Local_IP_Address====
 	ip_interface = "eth0";
 	//====End-Local_IP_Address====
-	LiDE_ver = "\x1B[33mLiDE (\033[1mLi\033[22mnux \033[1mD\033[22misk \033[1mE\033[22mxtractor) - v0.0.3.2\033[0m";
 
 	if (argc < 2)
 		print_help();
