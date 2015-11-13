@@ -1,13 +1,14 @@
 LiDE "Linux Disk Extractor"
 
-As of version 0.0.1.1 it has the same functionality as running a string of commands:
+As of version 0.0.2.0 it has the same functionality as running a string of commands:
 -dd to capture a file (more like cat though)
 -pv "pipe viewer" to view the progress of the file transfer
 -netcat to send the file over the network
+-md5sum to verify file integrity
 All packaged into a small executable less than 15Kb in size.
 
 The following command could accomplish the same results:
-cat File_to_Transfer | pv | nc -l -p 31337
+cat File_to_Transfer | pv | nc -l -p 31337 && md5sum File_to_Transfer
 
 
 Summary ChangeLog
@@ -44,8 +45,18 @@ v0.0.1.5
 -Added colors to output.
 -Cleaned up Makefile
 
+v0.0.2.0
+-Added MD5 function for source file
+MD5 Function:
+http://stackoverflow.com/questions/1220046/how-to-get-the-md5-hash-of-a-file-in-c/1220177#1220177
+D'Nabre, 2 Aug 2009
+
 
 Referenced Sources
 
 https://github.com/joshualockhart/hermes
 Thanks to Joshua Lockhart for getting my project off the ground. 
+
+MD5 Function
+http://stackoverflow.com/questions/1220046/how-to-get-the-md5-hash-of-a-file-in-c/1220177#1220177
+D'Nabre, 2 Aug 2009
