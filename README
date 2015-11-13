@@ -1,9 +1,46 @@
-LiDE is a small fileserver. To host a file, do
+What is LiDE?
+============
+Linux Disk Extractor: The linux cat/dd command extended across networks. 
+It helps you copy files across networks. 
+You may copy a full disk, a partition or a file using this command.
 
-$ ./lide file_to_send
+Example usage
+=============
+    There is a disk called /dev/sda on ipaddress 192.168.1.1.
+    There is another disk called /dev/sdb on ipaddress 192.168.1.2.
+    Now to copy /dev/sda@192.168.1.1 to /dev/sda@192.168.1.2, 
+    run the following command:
+	On 192.168.1.1:
+	    $ lide /dev/sda
+	On 192.168.1.2:
+	    netcat 192.168.1.1 31337 > /dev/sda && md5sum ReceivedFile.tst
+    
+    LiDE defaults to TCP/31337, but the port can be specified with -p.
+	On 192.168.1.1:
+	    $ lide -p 8888 FileToSend
+	On 192.168.1.2:
+	    netcat 192.168.1.1 8888 > ReceivedFile && md5sum ReceivedFile
 
-then to retrieve it on another host, do something like
+To execute lide on a remote system from local PC, 
+execute the following to make the file available on the network:
+tar cf - ./lide | ssh forensics@192.168.1.1 'tar xf -; ./lide FileToSend'
+***This will copy the file to the remote system and execute it.
 
-$ nc <LiDE host> 31337 > file_to_receive
+To compile
+==========
+	make
 
-LiDE defaults to TCP/31337, but the port can be specified with -p.
+To install
+==========
+	make install
+
+   This would install /bin/lide. 
+   You may edit the Makefile to whatever installation prefix as per your choice.
+
+To uninstall
+============
+	make uninstall
+
+To cleanup:
+===========
+	make clean
