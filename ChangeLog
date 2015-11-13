@@ -51,6 +51,9 @@ MD5 Function:
 http://stackoverflow.com/questions/1220046/how-to-get-the-md5-hash-of-a-file-in-c/1220177#1220177
 D'Nabre, 2 Aug 2009
 
+v0.0.2.1
+-Fixed MD5 function error displayed if no file available.
+
 
 Referenced Sources
 
