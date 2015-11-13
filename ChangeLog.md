@@ -85,6 +85,11 @@ Equivalent to: *ifconfig | grep -A1 eth0 | grep inet | cut -f2 -d ":" | cut -f1 
 * Moved program version info to LiDE.h
 * Added mktarball.sh for easier Source Archiving
 
+###v0.0.3.4
+* Added "-i" option to program help
+* Edited LiDE help
+* Added to mktarball.sh for creating Patches
+
 
 ##Referenced Sources
 
