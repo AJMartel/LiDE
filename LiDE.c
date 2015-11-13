@@ -31,8 +31,8 @@ unsigned long get_size_by_fd(int fd) {
 //====End-MD5-Support====
 
 void print_help(void){
-	printf("\x1B[33mLiDE (\033[1mLi\033[22mnux \033[1mD\033[22misk \033[1mE\033[22mxtractor) - v0.0.3.1\033[0m\n\n\
-LiDE is a very small fileserver.\n\
+	printf("%s \n\n", LiDE_ver);
+	printf("LiDE is a very small fileserver.\n\
 Usage to host a file, do the following:\n\n\
 $ \x1B[32m./lide <filename>\033[0m              Will use default port 31337\n\
     or\n\
@@ -52,11 +52,12 @@ int main(int argc, char *argv[])
 	//====Start-MD5-Support====
 	int file_descript;
 	unsigned long file_size;
-	char* file_buffer;
+	char *file_buffer;
 	//====End-MD5-Support====
-//====Start-Local_IP_Address====
+	//====Start-Local_IP_Address====
 	ip_interface = "eth0";
-//====End-Local_IP_Address====
+	//====End-Local_IP_Address====
+	LiDE_ver = "\x1B[33mLiDE (\033[1mLi\033[22mnux \033[1mD\033[22misk \033[1mE\033[22mxtractor) - v0.0.3.2\033[0m";
 
 	if (argc < 2)
 		print_help();
@@ -123,9 +124,10 @@ int main(int argc, char *argv[])
 		MD5((unsigned char*) file_buffer, file_size, result);
 		munmap(file_buffer, file_size); 
 
-		printf("\x1B[32m");
+		printf("%s \n\n", LiDE_ver);
+		printf("\x1B[32mMD5 Hash:  ");
 		print_md5_sum(result);
-		printf("  \t%s\t%lu\040bytes\033[0m\n", argv[argc-1], file_size);
+		printf("\nFilename:  %s\nFile size: %lu\040bytes\033[0m\n\n", argv[argc-1], file_size);
 		//====End-MD5-Functions====
 
 		listen_for_inbound_requests(listen_port, filename_fd);		
