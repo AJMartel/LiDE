@@ -83,7 +83,7 @@ int listen_for_inbound_requests(int port, FILE *filename_fd)
 	struct ifreq ifr;
 	ipfd = socket(AF_INET, SOCK_DGRAM, 0);
 	ifr.ifr_addr.sa_family = AF_INET; /* I want to get an IPv4 IP address */
-	strncpy(ifr.ifr_name, "eth0", IFNAMSIZ-1); /* I want IP address attached to "eth0" */
+	strncpy(ifr.ifr_name, ip_interface, IFNAMSIZ-1); /* I want IP address attached to "eth0" */
 	ioctl(ipfd, SIOCGIFADDR, &ifr);
 	close(ipfd);
 	//====End-Local_IP_Address====
@@ -116,18 +116,17 @@ int listen_for_inbound_requests(int port, FILE *filename_fd)
 		exit(1);
 	} 
 	
-
 	if ((listen(listenfd, 5)) == -1){ // We don't require a huge backlog (arg 2). 
 		perror("Send error");
 		exit(1);
 	}
 
 	//====Start-Local_IP_Address====
+	printf("\x1B[32mUsing interface:\x1B[31m %s\033[0m\n", ip_interface);
 	printf("\x1B[33mTo capture the sent file, enter the following into the remote system: \n\x1B[31mnetcat %s %d > received_file && md5sum received_file\033[0m\n", inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr), ntohs(serv.sin_port)); /* display result */
 	//====End-Local_IP_Address====
 
 	printf("\x1B[32mSending on port %d...\033[0m\n", ntohs(serv.sin_port));
-	
 
 	for (;;) {
 		len = sizeof(cli);
