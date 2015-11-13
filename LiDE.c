@@ -31,7 +31,7 @@ unsigned long get_size_by_fd(int fd) {
 //====End-MD5-Support====
 
 void print_help(void){
-	printf("\x1B[33mLiDE (\033[1mLi\033[22mnux \033[1mD\033[22misk \033[1mE\033[22mxtractor) - v0.0.3.0\033[0m\n\n\
+	printf("\x1B[33mLiDE (\033[1mLi\033[22mnux \033[1mD\033[22misk \033[1mE\033[22mxtractor) - v0.0.3.1\033[0m\n\n\
 LiDE is a very small fileserver.\n\
 Usage to host a file, do the following:\n\n\
 $ \x1B[32m./lide <filename>\033[0m              Will use default port 31337\n\
@@ -39,7 +39,7 @@ $ \x1B[32m./lide <filename>\033[0m              Will use default port 31337\n\
 $ \x1B[32m./lide -p <port> <filename>\033[0m    To specify a port to send on.\n\n\
 $ \x1B[32m./lide [-h]\033[0m                    Prints this help.\n\n\
 Then to retrieve it on another host, do something like\n\n\
-$ \x1B[32mnetcat <LiDE Host IP> 31337 > retrieved_file && md5sum retrieved_file\033[0m\n");
+$ \x1B[32mnetcat [LiDE_Host_IP] [PORT] > retrieved_file && md5sum retrieved_file\033[0m\n");
 	exit(0);
 }
 
@@ -54,17 +54,28 @@ int main(int argc, char *argv[])
 	unsigned long file_size;
 	char* file_buffer;
 	//====End-MD5-Support====
+//====Start-Local_IP_Address====
+	ip_interface = "eth0";
+//====End-Local_IP_Address====
 
 	if (argc < 2)
 		print_help();
 
 	char c;
-	while ((c = getopt(argc, argv, "hp:")) != -1) {
+	while ((c = getopt(argc, argv, "hi:p:")) != -1) {
 		switch(c){
 
 			case 'h':
 				print_help();
 				break;
+			//====Start-Local_IP_Address====
+			case 'i':
+				if (optarg != NULL){
+					ip_interface = optarg;
+					break;
+				}
+				else break;
+			//====End-Local_IP_Address====
 			case 'p':
 				if ((optarg != NULL) && (optarg[0] != '\0')){
 
