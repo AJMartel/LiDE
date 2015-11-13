@@ -5,13 +5,12 @@
 #include <arpa/inet.h>    // C definitions for internet operations
 #include <sys/socket.h>   // C Internet Protocol family
 #include <sys/types.h>    // C data types
-#include "LiDE.h"         // 
-#include "version.h"      
+#include "LiDE.h"         //    
 //====Start-MD5-Support====
 #include <sys/stat.h>     // C data returned by the stat() function    --|
 #include <sys/mman.h>     // C memory management declarations            |== Support MD5 Function
 #include <fcntl.h>        // C file control options                      |
-#include <openssl/md5.h>  //                                           --|
+#include <openssl/md5.h>  // C support MD5 functions                   --|
 
 unsigned char result[MD5_DIGEST_LENGTH];
 
@@ -33,14 +32,18 @@ unsigned long get_size_by_fd(int fd) {
 
 void print_help(void){
 	printf("\x1B[33m%s (\033[1mLi\033[22mnux \033[1mD\033[22misk \033[1mE\033[22mxtractor) - v%s\033[0m \n\n", PROG_NAME, PROG_VERSION);
-	printf("LiDE is a very small fileserver.\n\
-Usage to host a file, do the following:\n\n\
-$ \x1B[32m./lide <filename>\033[0m              Will use default port 31337\n\
+	printf("This is a linux TCP enabled cat/dd utility. \n\
+It enables you to copy a file, full disk or partition across network.\n\n\
+Usage; \n\
+$ \x1B[32m./lide [-h]\033[0m                        Prints this help.\n\n\
+To host a file:\n\
+$ \x1B[32m./lide <filename>\033[0m                  Will use default port 31337\n\
     or\n\
-$ \x1B[32m./lide -p <port> <filename>\033[0m    To specify a port to send on.\n\n\
-$ \x1B[32m./lide [-h]\033[0m                    Prints this help.\n\n\
-Then to retrieve it on another host, do something like\n\n\
-$ \x1B[32mnetcat [LiDE_Host_IP] [PORT] > retrieved_file && md5sum retrieved_file\033[0m\n");
+$ \x1B[32m./lide -p <port> <filename>\033[0m        To specify a port to send on.\n\
+$ \x1B[32m./lide -i <eth0|wlan0> <filename>\033[0m  To specify an interface to send on.\n\
+$ \x1B[32m./lide -i <eth0|wlan0> -p <port> <filename>\033[0m\n\n\
+Then to retrieve it on another host:\n\
+$ \x1B[32mnetcat [LiDE_Host_IP] [PORT] > retrieved_file && md5sum retrieved_file\033[0m\n\n");
 	exit(0);
 }
 
@@ -56,7 +59,7 @@ int main(int argc, char *argv[])
 	char *file_buffer;
 	//====End-MD5-Support====
 	//====Start-Local_IP_Address====
-	ip_interface = "eth0";
+	ip_interface = "eth0";             // Default network interface
 	//====End-Local_IP_Address====
 
 	if (argc < 2)
@@ -124,7 +127,7 @@ int main(int argc, char *argv[])
 		MD5((unsigned char*) file_buffer, file_size, result);
 		munmap(file_buffer, file_size); 
 
-		printf("%s \n\n", LiDE_ver);
+		printf("\x1B[33m%s (\033[1mLi\033[22mnux \033[1mD\033[22misk \033[1mE\033[22mxtractor) - v%s\033[0m \n\n", PROG_NAME, PROG_VERSION);
 		printf("\x1B[32mMD5 Hash:  ");
 		print_md5_sum(result);
 		printf("\nFilename:  %s\nFile size: %lu\040bytes\033[0m\n\n", argv[argc-1], file_size);
