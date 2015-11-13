@@ -5,11 +5,17 @@
 #include <arpa/inet.h>    // C definitions for internet operations
 #include <sys/socket.h>   // C Internet Protocol family
 #include "LiDE.h"         //
+//====Start-Local_IP_Address====
+#include <sys/types.h>    // C data types                --|
+#include <sys/ioctl.h>    // C generic I/O operation       |== Support IP Address Function
+#include <netinet/in.h>   // C Internet Protocol family    |
+#include <net/if.h>       // C Internet Protocol family  --|
+//====End-Local_IP_Address====
 
 /*
- * Send the file to the currently connected client, return number of bytes sent or 0 on error. At the minute
- * if there is an error with a send call it just dies and returns -1, this could obviously be improved to 
- * make it a little "smarter".
+ * Send the file to the currently connected client, return the number of bytes sent or 0 on error. 
+ * The moment there is an error with a send call, it just dies and returns -1,  
+ * this could obviously be improved to make it a little "smarter".
  */
 
 int send_file(FILE *fd, int connfd)
@@ -45,8 +51,7 @@ int send_file(FILE *fd, int connfd)
 			return -1;
 
 		total_bytes_sent += bytes_sent;
-		if(be_verbose)
-			printf("\x1B[31m%d\x1B[32m of %d\040bytes\r\e[?25l\033[0m", total_bytes_sent, filesize); // the "\r" refreshes current line and "\e[?25l" removes cursor
+		printf("\x1B[31m%d\x1B[32m of %d\040bytes\r\e[?25l\033[0m", total_bytes_sent, filesize); // the "\r" refreshes current line and "\e[?25l" removes the cursor
 	}
 
 	// send the last incomplete chunk at the end of the file.
@@ -56,7 +61,6 @@ int send_file(FILE *fd, int connfd)
 		return -1;
 
 	total_bytes_sent += bytes_sent;
-	if(be_verbose)
 		printf("\x1B[32m%d of %d\040bytes\033[0m\n", total_bytes_sent, filesize);
 
 	free(chunk);
@@ -64,7 +68,7 @@ int send_file(FILE *fd, int connfd)
 }
 
 /*
- * Wait for someone to ask for our file.
+ * Wait for a port connection asking for our file.
  */
 
 int listen_for_inbound_requests(int port, FILE *filename_fd)
@@ -74,7 +78,17 @@ int listen_for_inbound_requests(int port, FILE *filename_fd)
 	struct sockaddr_in serv, cli;	
 	socklen_t len;
 
-	char *ip_buff; // Somewhere handy to put IP addresses.
+	//====Start-Local_IP_Address====
+	int ipfd;
+	struct ifreq ifr;
+	ipfd = socket(AF_INET, SOCK_DGRAM, 0);
+	ifr.ifr_addr.sa_family = AF_INET; /* I want to get an IPv4 IP address */
+	strncpy(ifr.ifr_name, "eth0", IFNAMSIZ-1); /* I want IP address attached to "eth0" */
+	ioctl(ipfd, SIOCGIFADDR, &ifr);
+	close(ipfd);
+	//====End-Local_IP_Address====
+
+	char *ip_buff; // Somewhere to put an IP address.
 	
 	if((ip_buff = (char *) malloc(INET_ADDRSTRLEN)) == NULL)
 	{
@@ -103,10 +117,14 @@ int listen_for_inbound_requests(int port, FILE *filename_fd)
 	} 
 	
 
-	if ((listen(listenfd, 5)) == -1){ // We don't need a huge backlog (arg 2). 
+	if ((listen(listenfd, 5)) == -1){ // We don't require a huge backlog (arg 2). 
 		perror("Send error");
 		exit(1);
 	}
+
+	//====Start-Local_IP_Address====
+	printf("\x1B[33mTo capture the sent file, enter the following into the remote system: \n\x1B[31mnetcat %s %d > received_file && md5sum received_file\033[0m\n", inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr), ntohs(serv.sin_port)); /* display result */
+	//====End-Local_IP_Address====
 
 	printf("\x1B[32mSending on port %d...\033[0m\n", ntohs(serv.sin_port));
 	
