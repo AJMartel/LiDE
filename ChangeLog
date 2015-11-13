@@ -7,7 +7,7 @@ As of version 0.0.1.1 it has the same functionality as running a string of comma
 All packaged into a small executable less than 15Kb in size.
 
 The following command could accomplish the same results:
-cat File_to_Transfer | pv | nc -l -p 9999
+cat File_to_Transfer | pv | nc -l -p 31337
 
 
 Summary ChangeLog
@@ -27,6 +27,10 @@ v0.0.1.1
 -Fixed version.
 -Patched Makefile
 
+v0.0.1.2
+-Removed option for verbose, always verbose.
+-Changed default port.
+-Removed new line for progress status (verbose).
 
 Referenced Sources
 
