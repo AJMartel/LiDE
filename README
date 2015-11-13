@@ -1,9 +1,21 @@
 LiDE is a small fileserver. To host a file, do
 
-$ ./lide file_to_send
+$ ./lide FileToSend
 
 then to retrieve it on another host, do something like
 
-$ nc <LiDE host> 31337 > file_to_receive
+$ netcat <LiDE_host_IP> 31337 > ReceivedFile
 
 LiDE defaults to TCP/31337, but the port can be specified with -p.
+
+
+Example 
+
+From local PC execute the following to make the file available on the network:
+***This will copy the file to the remote system and execute it.
+
+$ tar cf - ./lide | ssh <RemoteUser>@<RemoteIP> 'tar xf -; ./lide FileToSend'
+
+In another terminal on the local PC execute the following to retrieve the file:
+
+$ netcat <RemoteIP> 31337 > ReceivedFile && md5sum ReceivedFile
