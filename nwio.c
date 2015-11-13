@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-#include "hermes.h"
+#include "LiDE.h"
 
 /*
  * Send the file to the currently connected client, return number of bytes sent or 0 on error. At the minute
@@ -46,7 +46,7 @@ int send_file(FILE *fd, int connfd)
 
 		total_bytes_sent += bytes_sent;
 		if(be_verbose)
-			printf("%d / %d\n", total_bytes_sent, filesize);
+			printf("%d / %d\r", total_bytes_sent, filesize); // the "\r" refreshes current line
 	}
 
 	// send the last incomplete chunk at the end of the file.
